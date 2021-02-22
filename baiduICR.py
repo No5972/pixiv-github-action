@@ -15,7 +15,7 @@ path = os.getcwd()
 get_dir = os.listdir(path)
 for i in get_dir:
 	if i.endswith('.jpg') or i.endswith('.png'):
-		source = "https://imageproxy.pimg.tw/resize?url=https://raw.githubusercontent.com/No5972/pixiv-github-action/runner/87899740_2B.png"
+		source = "https://imageproxy.pimg.tw/resize?url=https://raw.githubusercontent.com/No5972/pixiv-github-action/runner/" + i
 		response = vcr_client.put_image(source, preset)
 		if response.label == 'REJECT': 
 			os.remove(i)
