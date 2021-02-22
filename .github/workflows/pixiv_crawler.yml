@@ -41,6 +41,13 @@ jobs:
         BAIDU_ACCOUNT_ACCESS_KEY: ${{ secrets.BAIDU_ACCOUNT_ACCESS_KEY }}
         BAIDU_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.BAIDU_ACCOUNT_SECRET_ACCESS_KEY }}
       run: python baiduICR.py
+    - name: Upload to this repo
+      run: |
+        git config --global user.name "No5972" # Change to your GitHub user name
+        git config --global user.email "wujiuqier@foxmail.com" # Change to your GitHub email address
+        git add "*.jpg" "*.png" && echo "Git Added" # Guess if there are any other types of pictures - Ref: https://stackoverflow.com/questions/25083290/git-add-error-unknown-switch
+        git commit -m 'upload pa result' && echo "Git Committed"
+        git push -u origin runner && echo "Git Pushed Origin" # Change to your branch to place crawled pictures
     - name: Failure test
       if: failure()
       run: | 
