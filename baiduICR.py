@@ -18,4 +18,7 @@ for i in get_dir:
 		source = "https://imageproxy.pimg.tw/resize?url=https://raw.githubusercontent.com/No5972/pixiv-github-action/runner/" + i
 		response = vcr_client.put_image(source, preset)
 		if response.label == 'REJECT': 
+			print(i + ' BAD')
 			os.remove(i)
+		else:
+			print(i + ' GOOD')
