@@ -3,6 +3,7 @@
 
 #导入Python标准日志模块
 import logging
+import os
 
 #从Python SDK导入VCR配置管理模块以及安全认证模块  
 from baidubce.bce_client_configuration import BceClientConfiguration
