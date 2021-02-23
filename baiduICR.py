@@ -17,9 +17,13 @@ get_dir = os.listdir(path)
 for i in get_dir:
 	if i.endswith('.jpg') or i.endswith('.png'):
 		source = "https://imageproxy.pimg.tw/resize?url=https://raw.githubusercontent.com/No5972/pixiv-github-action/runner/" + parse.quote(i)
-		response = vcr_client.put_image(source, preset)
-		if response.label == 'REJECT' or response.label == 'REVIEW': 
-			print(i + ' BAD')
+		try:
+			response = vcr_client.put_image(source, preset)
+			if response.label == 'REJECT' or response.label == 'REVIEW': 
+				print(i + ' BAD')
+				os.remove(i)
+			else:
+				print(i + ' GOOD')
+		except:
+			print(i + ' BCE_ERROR')
 			os.remove(i)
-		else:
-			print(i + ' GOOD')
