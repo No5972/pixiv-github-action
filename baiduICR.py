@@ -20,8 +20,11 @@ for i in get_dir:
 		try:
 			response = vcr_client.put_image(source, preset)
 			if response.label == 'REJECT' or response.label == 'REVIEW': 
-				print(i + ' BAD - ' + response.results[0].type)
-				os.remove(i)
+				for k in response.results:
+					print(i + ' BAD - ' + k.type)
+					if k.type != 'ad_marketing':
+						os.remove(i)
+						continue
 			else:
 				print(i + ' GOOD')
 		except:
