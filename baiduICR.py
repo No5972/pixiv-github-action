@@ -22,11 +22,11 @@ for i in get_dir:
 			if response.label == 'REJECT' or response.label == 'REVIEW': 
 				for k in response.results:
 					print(i + ' BAD - ' + k.type)
-					if k.type != 'ad_marketing':
+					if k.type != 'ad_marketing' and k.type != 'ad_brand':
 						os.remove(i)
 						break
 			else:
 				print(i + ' GOOD')
 		except:
 			print(i + ' BCE_ERROR')
-			os.remove(i) 
+			os.remove(i)
