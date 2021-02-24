@@ -24,7 +24,7 @@ for i in get_dir:
 					print(i + ' BAD - ' + k.type)
 					if k.type != 'ad_marketing':
 						os.remove(i)
-						continue
+						break
 			else:
 				print(i + ' GOOD')
 		except:
