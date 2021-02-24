@@ -29,4 +29,4 @@ for i in get_dir:
 				print(i + ' GOOD')
 		except:
 			print(i + ' BCE_ERROR')
-			os.remove(i)
+			os.remove(i) 
