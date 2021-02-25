@@ -48,6 +48,20 @@ jobs:
         git add "*.jpg" "*.png" && echo "Git Added" # Guess if there are any other types of pictures - Ref: https://stackoverflow.com/questions/25083290/git-add-error-unknown-switch
         git commit -m 'upload pa result' && echo "Git Committed"
         git push -u origin runner && echo "Git Pushed Origin" # Change to your branch to place crawled pictures
+    - name: Upload to Vercel
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        src_path: /.
+        dst_path: /cms/pixiv-daily-top50/static/
+        dst_owner: No5972
+        dst_repo_name: pixiv-github-action
+        dst_branch: master
+        src_branch: runner
+        file_filter: "[0-9]*"
+        clean: true
+        username: No5972
+        email: wujiuqier@foxmail.com
     - name: Blank Repo on Failure
       if: failure()
       run: | 
