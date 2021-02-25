@@ -53,9 +53,9 @@ jobs:
       with:
         personal_token: ${{ secrets.PERSONAL_TOKEN }}
         src_path: /.
-        dst_path: /cms/pixiv-daily-top50/static/
+        dst_path: /pixiv-daily-top50/static/
         dst_owner: No5972
-        dst_repo_name: pixiv-github-action
+        dst_repo_name: No5972.github.io
         dst_branch: master
         src_branch: runner
         file_filter: "[0-9]*"
