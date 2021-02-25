@@ -59,6 +59,7 @@ jobs:
         dst_branch: master
         src_branch: runner
         file_filter: "[0-9]*"
+        exclude: "*/__pycache__/*"
         clean: true
         username: No5972
         email: wujiuqier@foxmail.com
