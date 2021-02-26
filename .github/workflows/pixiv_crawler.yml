@@ -1,0 +1,77 @@
+name: "Pixiv Crawler"
+
+on:
+  schedule:
+    - cron: '0 6 * * *'  
+  push:
+  
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+
+jobs:
+  job_1:
+    name: Python Crawler
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: runner # Change to your branch to place crawled pictures
+    - name: Clear Previous
+      run: |
+        rm -f -- *.jpg
+        rm -f -- *.png
+    - name: Setup Python environment
+      uses: actions/setup-python@v1.1.1 
+    - name: Install Dependence
+      run: pip install requests pycryptodome bce-python-sdk
+    - name: Run pa.py
+      run: python pa.py
+    - name: list
+      run: ls
+    - name: Upload to this repo
+      run: |
+        git config --global user.name "No5972" # Change to your GitHub user name
+        git config --global user.email "wujiuqier@foxmail.com" # Change to your GitHub email address
+        git add "*.jpg" "*.png" && echo "Git Added" # Guess if there are any other types of pictures - Ref: https://stackoverflow.com/questions/25083290/git-add-error-unknown-switch
+        git commit -m 'upload pa result' && echo "Git Committed"
+        git push -u origin runner && echo "Git Pushed Origin" # Change to your branch to place crawled pictures
+    - name: Baidu Image Censoring
+      env: 
+        BAIDU_ACCOUNT_ACCESS_KEY: ${{ secrets.BAIDU_ACCOUNT_ACCESS_KEY }}
+        BAIDU_ACCOUNT_SECRET_ACCESS_KEY: ${{ secrets.BAIDU_ACCOUNT_SECRET_ACCESS_KEY }}
+      run: python baiduICR.py
+    - name: Upload to this repo
+      run: |
+        git config --global user.name "No5972" # Change to your GitHub user name
+        git config --global user.email "wujiuqier@foxmail.com" # Change to your GitHub email address
+        git add "*.jpg" "*.png" && echo "Git Added" # Guess if there are any other types of pictures - Ref: https://stackoverflow.com/questions/25083290/git-add-error-unknown-switch
+        git commit -m 'upload pa result' && echo "Git Committed"
+        git push -u origin runner && echo "Git Pushed Origin" # Change to your branch to place crawled pictures
+    - name: Upload to Vercel
+      uses: andstor/copycat-action@v3
+      with:
+        personal_token: ${{ secrets.PERSONAL_TOKEN }}
+        src_path: /.
+        dst_path: /pixiv-daily-top50/static/
+        dst_owner: No5972
+        dst_repo_name: No5972.github.io
+        dst_branch: master
+        src_branch: runner
+        file_filter: "[0-9]*"
+        exclude: "*/__pycache__/*"
+        clean: true
+        username: No5972
+        email: wujiuqier@foxmail.com
+    - name: Blank Repo on Failure
+      if: failure()
+      run: | 
+        ls
+        echo "Error on running! Starting Blanking Repo"
+        rm -f -- *.jpg
+        rm -f -- *.png
+        git config --global user.name "No5972" # Change to your GitHub user name
+        git config --global user.email "wujiuqier@foxmail.com" # Change to your GitHub email address
+        git add . && echo "Git Added" # Guess if there are any other types of pictures - Ref: https://stackoverflow.com/questions/25083290/git-add-error-unknown-switch
+        git commit -m 'upload pa result' && echo "Git Committed"
+        git push -u origin runner && echo "Git Pushed Origin" # Change to your branch to place crawled pictures
