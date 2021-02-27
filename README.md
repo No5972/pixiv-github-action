@@ -2,8 +2,9 @@
 Crawls Pixiv daily rank list pictures and pushes to a GitHub repository every day
 
 Usage:  
-1. Create a new branch place the crawled pictures
+1. Create a new branch to place the crawled pictures
 2. Specify your GitHub username, your GitHub email address, and the branch to place the crawled pictures in ```.github/workflows/pixiv_crawler.yml```.
+3. Enable workflow in "Actions".
 ```yaml
 name: "Pixiv Crawler"
 
